@@ -1,0 +1,1 @@
+Move to standalone plugin
