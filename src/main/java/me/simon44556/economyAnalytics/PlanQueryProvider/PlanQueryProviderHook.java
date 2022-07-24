@@ -5,7 +5,7 @@ import java.util.Optional;
 import com.djrapitops.plan.capability.CapabilityService;
 import com.djrapitops.plan.query.QueryService;
 
-public class PlanQueryProviderHook{
+public class PlanQueryProviderHook {
     public PlanQueryProviderHook() {
 
     }
@@ -23,7 +23,7 @@ public class PlanQueryProviderHook{
 
     private PlanQueryProvider createAccessor() {
         try {
-            return new PlanQueryProvider(QueryService.getInstance());
+            return new EconomyTracker(QueryService.getInstance());
         } catch (IllegalStateException planIsNotEnabled) {
             // Plan is not enabled, handle exception
             return null;
