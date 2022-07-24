@@ -1,0 +1,29 @@
+main: me.simon44556.economyAnalytics.EconomyAnalytics
+name: EconomyAnalytics
+version: 1.0
+api-version: 1.19
+description: A test plugin
+author: simon44556
+depend:
+- ShopGUIPlus
+softdepend:
+- Plan
+# TODO:
+#commands:
+#  foo:
+#    description: Foo command
+#    aliases:
+#    - foobar
+#    - fubar
+#    permission: test.foo
+#    permission-message: You do not have permission!
+#    usage: /<command> [test|stop]
+#permissions:
+#  test.foo:
+#    description: Allows foo command
+#    default: op
+#  test.*:
+#    description: Wildcard permission
+#    default: op
+#    children:
+#      test.foo: true
