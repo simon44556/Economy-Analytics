@@ -8,9 +8,11 @@ import com.djrapitops.plan.query.QueryService;
 import me.simon44556.economyAnalytics.DataTypes.ShopEvent;
 
 public class EconomyTracker extends PlanQueryProvider {
+    // TODO: - Move this to enum
+    private static final String DB_NAME = "plan_economy_tracker";
+
     public EconomyTracker(QueryService service) {
-        super(service);
-        dbTableName = "plan_economy_tracker";
+        super(service, DB_NAME);
     }
 
     @Override
@@ -18,13 +20,13 @@ public class EconomyTracker extends PlanQueryProvider {
         String dbType = _service.getDBType();
         boolean sqlite = dbType.equalsIgnoreCase("SQLITE");
 
-        String sql = "CREATE TABLE IF NOT EXISTS " + dbTableName + " (" +
-                "key int " + (sqlite ? "PRIMARY KEY" : "NOT NULL AUTO_INCREMENT") + ',' +
-                "transactionTime int NOT NULL," +
-                "playerUUID varchar(36) NOT NULL," +
-                "eventType int NOT NULL," +
-                "amount double," +
-                "item varchar(40)" +
+        String sql = "CREATE TABLE IF NOT EXISTS " + this.dbTableName + " (" +
+                "key INT " + (sqlite ? "PRIMARY KEY" : "NOT NULL AUTO_INCREMENT") + ',' +
+                "transactionTime INT NOT NULL," +
+                "playerUUID VARCHAR(36) NOT NULL," +
+                "eventType INT NOT NULL," +
+                "amount DOUBLE," +
+                "item VARCHAR(40)" +
                 (sqlite ? "" : ",PRIMARY KEY (key)") +
                 ')';
 
@@ -33,12 +35,12 @@ public class EconomyTracker extends PlanQueryProvider {
 
     @Override
     public void storeTransaction(ShopEvent dataStore) {
-        String insert = "INSERT INTO " + dbTableName
+        String insert = "INSERT INTO " + this.dbTableName
                 + " ( transactionTime, playerUUID, eventType, amount, item ) VALUES(?, ?, ?, ?, ?)";
 
         try {
             _service.execute(insert, statement -> {
-                statement.setInt(1, dataStore.getTransactionTime());
+                statement.setLong(1, dataStore.getTransactionTime());
                 statement.setString(2, dataStore.getPlayerUUID());
                 statement.setInt(3, dataStore.getEventTypeAsInt());
                 statement.setDouble(4, dataStore.getAmount());
@@ -52,7 +54,7 @@ public class EconomyTracker extends PlanQueryProvider {
 
     @Override
     public ShopEvent getSingleTransactionForTime(int time, String uuid) {
-        String select = "SELECT * FROM " + dbTableName + " WHERE time=? AND uuid=?";
+        String select = "SELECT * FROM " + this.dbTableName + " WHERE time=? AND uuid=?";
 
         _service.query(select, statement -> {
             statement.setInt(1, time);
@@ -71,7 +73,7 @@ public class EconomyTracker extends PlanQueryProvider {
     }
 
     public double getTransactionsForItemOnTime(int time, String item) {
-        String select = "SELECT SUM(amount) AS sumOfAmounts FROM " + dbTableName + " WHERE time=? AND item=?";
+        String select = "SELECT SUM(amount) AS sumOfAmounts FROM " + this.dbTableName + " WHERE time=? AND item=?";
 
         _service.query(select, statement -> {
             statement.setInt(1, time);

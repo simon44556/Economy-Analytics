@@ -6,16 +6,20 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import me.simon44556.economyAnalytics.PlanQueryProvider.PlanQueryProvider;
 import me.simon44556.economyAnalytics.PlanQueryProvider.PlanQueryProviderHook;
+import me.simon44556.economyAnalytics.PlanWebHandler.PlanWebHandler;
 import me.simon44556.economyAnalytics.ShopListener.ShopListener;
 
 public class EconomyAnalytics extends JavaPlugin {
     PlanQueryProvider _planQueryProvider;
+
+    PlanWebHandler _WebHandler;
 
     @Override
     public void onEnable() {
         enablePlan();
 
         this.getServer().getPluginManager().registerEvents(new ShopListener(this), this);
+        _WebHandler = new PlanWebHandler();
     }
 
     @Override

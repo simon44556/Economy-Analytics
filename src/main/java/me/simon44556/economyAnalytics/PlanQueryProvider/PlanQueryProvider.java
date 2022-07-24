@@ -11,7 +11,8 @@ public abstract class PlanQueryProvider {
     protected String dbTableName;
     protected QueryService _service;
 
-    protected PlanQueryProvider(QueryService service) {
+    protected PlanQueryProvider(QueryService service, String dbName) {
+        this.dbTableName = dbName;
         this._service = service;
 
         createTable();
@@ -19,10 +20,8 @@ public abstract class PlanQueryProvider {
         _service.subscribeToPlayerRemoveEvent(this::removePlayer);
     }
 
-    public abstract void createTable();
-
     private void dropTable() {
-        _service.execute("DROP TABLE IF EXISTS " + dbTableName + "", PreparedStatement::execute);
+        _service.execute("DROP TABLE IF EXISTS " + this.dbTableName + "", PreparedStatement::execute);
     }
 
     private void recreateTable() {
@@ -32,12 +31,22 @@ public abstract class PlanQueryProvider {
 
     private void removePlayer(UUID playerUUID) {
         _service.execute(
-                "DELETE FROM " + dbTableName + " WHERE uuid=?",
+                "DELETE FROM " + this.dbTableName + " WHERE uuid=?",
                 statement -> {
                     statement.setString(1, playerUUID.toString());
                     statement.execute();
                 });
     }
+
+    protected void setDbTableName(String name) {
+        this.dbTableName = name;
+    }
+
+    protected String getDbTableName() {
+        return dbTableName;
+    }
+
+    public abstract void createTable();
 
     public abstract void storeTransaction(ShopEvent dataStore);
 

@@ -3,17 +3,13 @@ package me.simon44556.economyAnalytics.DataTypes;
 import me.simon44556.economyAnalytics.DataTypes.Enums.ShopEventType;
 
 public class ShopEvent {
-    private int transactionTime;
+    private long transactionTime;
     private String playerUUID;
     private ShopEventType eventType;
     private double amount;
     private String item;
 
-    public ShopEvent() {
-
-    }
-
-    public ShopEvent(int transactionTime, String playerUUID, ShopEventType eventType, double amount, String item) {
+    public ShopEvent(long transactionTime, String playerUUID, ShopEventType eventType, double amount, String item) {
         this.transactionTime = transactionTime;
         this.playerUUID = playerUUID;
         this.eventType = eventType;
@@ -21,11 +17,11 @@ public class ShopEvent {
         this.item = item;
     }
 
-    public ShopEvent(int transactionTime, String playerUUID, int eventType, double amount, String item) {
+    public ShopEvent(long transactionTime, String playerUUID, int eventType, double amount, String item) {
         new ShopEvent(transactionTime, playerUUID, ShopEventType.setValue(eventType), amount, item);
     }
 
-    public int getTransactionTime() {
+    public long getTransactionTime() {
         return this.transactionTime;
     }
 

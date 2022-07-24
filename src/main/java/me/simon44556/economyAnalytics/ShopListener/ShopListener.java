@@ -1,6 +1,6 @@
 package me.simon44556.economyAnalytics.ShopListener;
 
-import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -22,49 +22,30 @@ public class ShopListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onShopTransaction(ShopPostTransactionEvent e) {
-
         ShopTransactionResult result = e.getResult();
-
         if (result == null) {
             return;
         }
 
         ShopTransactionResultType transactionResult = result.getResult();
-
         if (transactionResult != ShopTransactionResultType.SUCCESS) {
             return;
         }
 
-        Player p = result.getPlayer();
+        String uuid = result.getPlayer().getUniqueId().toString();
         String mat = result.getShopItem().getItem().getType().name();
-
         if (mat == null) {
             mat = "Unknown";
         }
 
         ShopAction action = result.getShopAction();
-
         double amount = result.getAmount();
 
-        ShopEvent test = new ShopEvent(currentTimeMillis(), p.getUniqueId().toString(), matchEventType(action), amount,
-                mat);
+        ShopEvent dataForDB = new ShopEvent(System.currentTimeMillis(), uuid, matchEventType(action), amount, mat);
 
-        plugin.getPlanProvider().storeTransaction(test);
-
-        
-        System.out.println("TEST");
-        System.out.println(e.getResult().getAmount());
-        System.out.println(e.getResult().getPrice());
-        System.out.println(e.getResult().getResult().toString());
-        System.out.println(e.getResult().getPlayer().getDisplayName());
-
-        System.out.println(e.getResult().getShopItem().getId());
-        System.out.println(e.getResult().getShopItem().getItem().getType().toString());
-        System.out.println(e.getResult().getShopItem().getItem().getType().name());
-
-        System.out.println(e.getResult().getShopAction());
-        System.out.println("TEST END");
-
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            plugin.getPlanProvider().storeTransaction(dataForDB);
+        });
     }
 
     public ShopEventType matchEventType(ShopAction action) {
@@ -78,10 +59,6 @@ public class ShopListener implements Listener {
             default:
                 return ShopEventType.OTHER;
         }
-    }
-
-    public int currentTimeMillis() {
-        return (int) (System.currentTimeMillis() & 0x00000000FFFFFFFFL);
     }
 
 }
