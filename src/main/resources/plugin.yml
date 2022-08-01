@@ -5,9 +5,8 @@ api-version: 1.19
 description: A test plugin
 author: simon44556
 depend:
-- ShopGUIPlus
-softdepend:
 - Plan
+- ShopGUIPlus
 # TODO:
 #commands:
 #  foo:

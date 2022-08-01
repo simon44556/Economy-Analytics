@@ -21,13 +21,14 @@ public class EconomyTracker extends PlanQueryProvider {
         boolean sqlite = dbType.equalsIgnoreCase("SQLITE");
 
         String sql = "CREATE TABLE IF NOT EXISTS " + this.dbTableName + " (" +
-                "key INT " + (sqlite ? "PRIMARY KEY" : "NOT NULL AUTO_INCREMENT") + ',' +
-                "transactionTime INT NOT NULL," +
+                "ID INT " + (sqlite ? "PRIMARY KEY" : "NOT NULL AUTO_INCREMENT") + ',' +
+                "transactionTime BIGINT NOT NULL," +
                 "playerUUID VARCHAR(36) NOT NULL," +
                 "eventType INT NOT NULL," +
-                "amount DOUBLE," +
+                "amount INT," +
+                "price DOUBLE," +
                 "item VARCHAR(40)" +
-                (sqlite ? "" : ",PRIMARY KEY (key)") +
+                (sqlite ? "" : ",PRIMARY KEY (ID)") +
                 ')';
 
         _service.execute(sql, PreparedStatement::execute);
@@ -36,7 +37,7 @@ public class EconomyTracker extends PlanQueryProvider {
     @Override
     public void storeTransaction(ShopEvent dataStore) {
         String insert = "INSERT INTO " + this.dbTableName
-                + " ( transactionTime, playerUUID, eventType, amount, item ) VALUES(?, ?, ?, ?, ?)";
+                + " ( transactionTime, playerUUID, eventType, amount, price, item ) VALUES(?, ?, ?, ?, ?, ?)";
 
         try {
             _service.execute(insert, statement -> {
@@ -44,7 +45,8 @@ public class EconomyTracker extends PlanQueryProvider {
                 statement.setString(2, dataStore.getPlayerUUID());
                 statement.setInt(3, dataStore.getEventTypeAsInt());
                 statement.setDouble(4, dataStore.getAmount());
-                statement.setString(5, dataStore.getItem());
+                statement.setDouble(5, dataStore.getPrice());
+                statement.setString(6, dataStore.getItem());
                 statement.execute();
             });
         } catch (IllegalStateException e) {
@@ -64,8 +66,8 @@ public class EconomyTracker extends PlanQueryProvider {
                     return null;
                 }
 
-                return new ShopEvent(set.getInt("transactionTime"), set.getString("playerUUID"),
-                        set.getInt("eventType"), set.getDouble("amount"), set.getString("item"));
+                return new ShopEvent(set.getLong("transactionTime"), set.getString("playerUUID"),
+                        set.getInt("eventType"), set.getInt("amount"), set.getDouble("price"), set.getString("item"));
             }
         });
 

@@ -39,9 +39,11 @@ public class ShopListener implements Listener {
         }
 
         ShopAction action = result.getShopAction();
-        double amount = result.getAmount();
+        int amount = result.getAmount();
+        double price = result.getPrice();
 
-        ShopEvent dataForDB = new ShopEvent(System.currentTimeMillis(), uuid, matchEventType(action), amount, mat);
+        ShopEvent dataForDB = new ShopEvent(System.currentTimeMillis(), uuid, matchEventType(action), amount, price,
+                mat);
 
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             plugin.getPlanProvider().storeTransaction(dataForDB);
