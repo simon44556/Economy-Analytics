@@ -33,7 +33,7 @@ public class EconomyAnalytics extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ShopListener(this), this);
 
         if (vaultEventProvider.areEventsAvailable()) {
-            // Register
+            // Register vault
             getServer().getPluginManager().registerEvents(new EconomyListener(this), this);
         } else {
             logger.log(Level.SEVERE, "ECONOMY NOT AVAILABLE");

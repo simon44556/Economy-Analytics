@@ -26,8 +26,8 @@ public class DataHandler {
                 "eventType INT NOT NULL," +
                 "amount INT," +
                 "price DOUBLE," +
-                "item VARCHAR(40)" +
-                ",PRIMARY KEY (ID)" +
+                "item VARCHAR(40)," +
+                "PRIMARY KEY (ID)" +
                 ')';
         this._databaseManager.execute(sql);
 
@@ -37,7 +37,7 @@ public class DataHandler {
                 "playerUUID VARCHAR(36) NOT NULL," +
                 "eventType INT NOT NULL," +
                 "price DOUBLE," +
-                ",PRIMARY KEY (ID)" +
+                "PRIMARY KEY (ID)" +
                 ')';
         this._databaseManager.execute(sql);
     }
@@ -70,7 +70,7 @@ public class DataHandler {
                 statement.setLong(1, dataStore.getTransactionTime());
                 statement.setString(2, dataStore.getPlayerUUID());
                 statement.setInt(3, dataStore.getEventTypeAsInt());
-                statement.setDouble(5, dataStore.getPrice());
+                statement.setDouble(4, dataStore.getPrice());
                 return statement.execute();
             });
         } catch (IllegalStateException e) {
