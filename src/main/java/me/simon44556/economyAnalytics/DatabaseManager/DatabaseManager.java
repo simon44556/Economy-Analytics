@@ -1,4 +1,4 @@
-package me.simon44556.economyAnalytics.SQLHandler;
+package me.simon44556.economyAnalytics.DatabaseManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

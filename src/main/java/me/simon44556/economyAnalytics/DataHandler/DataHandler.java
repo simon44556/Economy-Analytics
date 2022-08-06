@@ -1,16 +1,10 @@
 package me.simon44556.economyAnalytics.DataHandler;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import me.simon44556.economyAnalytics.DataTypes.ShopEvent;
-import me.simon44556.economyAnalytics.SQLHandler.DatabaseManager;
-import me.simon44556.economyAnalytics.SQLHandler.PreparedStatementSetter;
+import me.simon44556.economyAnalytics.DatabaseManager.DatabaseManager;
 
 public class DataHandler {
     private final String TABLE_NAME = "plan_economy_tracker";
@@ -75,8 +69,6 @@ public class DataHandler {
 
     public double getTransactionsForItemOnTime(int time, String item) {
         final String select = "SELECT SUM(amount) AS sumOfAmounts FROM " + this.TABLE_NAME + " WHERE time=? AND item=?";
-
-        double d = 1;
 
         try {
             _databaseManager.execute(select, ps -> {
