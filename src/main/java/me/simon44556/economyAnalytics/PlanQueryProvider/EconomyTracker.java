@@ -1,4 +1,4 @@
-package me.simon44556.economyAnalytics.PlanQueryProvider;
+/*package me.simon44556.economyAnalytics.PlanQueryProvider;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -92,3 +92,4 @@ public class EconomyTracker extends PlanQueryProvider {
         return 0;
     }
 }
+*/

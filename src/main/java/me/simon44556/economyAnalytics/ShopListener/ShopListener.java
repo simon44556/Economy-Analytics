@@ -1,6 +1,5 @@
 package me.simon44556.economyAnalytics.ShopListener;
 
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -45,9 +44,9 @@ public class ShopListener implements Listener {
         ShopEvent dataForDB = new ShopEvent(System.currentTimeMillis(), uuid, matchEventType(action), amount, price,
                 mat);
 
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+        /*Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             plugin.getPlanProvider().storeTransaction(dataForDB);
-        });
+        });*/
     }
 
     public ShopEventType matchEventType(ShopAction action) {

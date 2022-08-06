@@ -1,4 +1,4 @@
-package me.simon44556.economyAnalytics.PlanQueryProvider;
+/*package me.simon44556.economyAnalytics.PlanQueryProvider;
 
 import java.sql.PreparedStatement;
 import java.util.UUID;
@@ -53,4 +53,4 @@ public abstract class PlanQueryProvider {
     public abstract ShopEvent getSingleTransactionForTime(int time, String uuid);
 
     public abstract double getTransactionsForItemOnTime(int time, String item);
-}
+}*/

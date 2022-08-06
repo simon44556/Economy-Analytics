@@ -1,4 +1,4 @@
-package me.simon44556.economyAnalytics.PlanQueryProvider;
+/*package me.simon44556.economyAnalytics.PlanQueryProvider;
 
 import java.util.Optional;
 
@@ -30,3 +30,4 @@ public class PlanQueryProviderHook {
         }
     }
 }
+*/

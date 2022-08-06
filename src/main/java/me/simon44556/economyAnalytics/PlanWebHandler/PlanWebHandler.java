@@ -1,12 +1,13 @@
-package me.simon44556.economyAnalytics.PlanWebHandler;
+/*package me.simon44556.economyAnalytics.PlanWebHandler;
 
 import java.util.Optional;
 
+import javax.naming.spi.Resolver;
+import javax.swing.text.Position;
+
 import com.djrapitops.plan.delivery.web.ResolverService;
 import com.djrapitops.plan.delivery.web.ResourceService;
-import com.djrapitops.plan.delivery.web.ResourceService.Position;
 import com.djrapitops.plan.delivery.web.resolver.MimeType;
-import com.djrapitops.plan.delivery.web.resolver.Resolver;
 import com.djrapitops.plan.delivery.web.resolver.Response;
 import com.djrapitops.plan.delivery.web.resolver.request.Request;
 
@@ -42,4 +43,4 @@ public class PlanWebHandler implements Resolver {
                         .build());
     }
 
-}
+}*/
