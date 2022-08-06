@@ -1,11 +1,10 @@
 main: me.simon44556.economyAnalytics.EconomyAnalytics
 name: EconomyAnalytics
-version: 1.0
+version: 1.1
 api-version: 1.19
 description: A test plugin
 author: simon44556
 depend:
-- Plan
 - ShopGUIPlus
 # TODO:
 #commands:

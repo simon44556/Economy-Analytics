@@ -1,10 +1,14 @@
 package me.simon44556.economyAnalytics.ShopListener;
 
+import java.sql.SQLException;
+
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import me.simon44556.economyAnalytics.EconomyAnalytics;
+import me.simon44556.economyAnalytics.DataHandler.DataHandler;
 import me.simon44556.economyAnalytics.DataTypes.ShopEvent;
 import me.simon44556.economyAnalytics.DataTypes.Enums.ShopEventType;
 import net.brcdev.shopgui.event.ShopPostTransactionEvent;
@@ -14,9 +18,16 @@ import net.brcdev.shopgui.shop.ShopTransactionResult.ShopTransactionResultType;
 
 public class ShopListener implements Listener {
     EconomyAnalytics plugin;
+    DataHandler _handler;
 
     public ShopListener(EconomyAnalytics plugin) {
         this.plugin = plugin;
+        try {
+            this._handler = new DataHandler();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -44,9 +55,9 @@ public class ShopListener implements Listener {
         ShopEvent dataForDB = new ShopEvent(System.currentTimeMillis(), uuid, matchEventType(action), amount, price,
                 mat);
 
-        /*Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            plugin.getPlanProvider().storeTransaction(dataForDB);
-        });*/
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            _handler.storeTransaction(dataForDB);
+        });
     }
 
     public ShopEventType matchEventType(ShopAction action) {
