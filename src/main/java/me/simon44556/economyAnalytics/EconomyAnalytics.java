@@ -30,14 +30,25 @@ public class EconomyAnalytics extends JavaPlugin {
     }
 
     public void registerListeners() {
-        getServer().getPluginManager().registerEvents(new ShopListener(this), this);
+        registerShopGuiPlus();
         registerEconomyListener();
     }
 
-    public void registerEconomyListener() {
-        boolean isCmiAvailable = this.getServer().getPluginManager().getPlugin("CMI") != null;
+    public void registerShopGuiPlus() {
+        boolean isIntegration = this.getServer().getPluginManager().getPlugin("ShopGUIPlus") != null;
 
-        if (isCmiAvailable) {
+        if (isIntegration) {
+
+            getServer().getPluginManager().registerEvents(new ShopListener(this), this);
+        } else {
+            logger.log(Level.SEVERE, "SHOP NOT AVAILABLE");
+        }
+    }
+
+    public void registerEconomyListener() {
+        boolean isIntegration = this.getServer().getPluginManager().getPlugin("CMI") != null;
+
+        if (isIntegration) {
             // register cmi
             getServer().getPluginManager().registerEvents(new CMIListener(this), this);
         } else {
