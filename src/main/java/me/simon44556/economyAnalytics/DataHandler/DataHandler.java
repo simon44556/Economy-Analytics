@@ -7,7 +7,8 @@ import me.simon44556.economyAnalytics.DataTypes.ShopEvent;
 import me.simon44556.economyAnalytics.DatabaseManager.DatabaseManager;
 
 public class DataHandler {
-    private final String TABLE_NAME = "plan_economy_tracker";
+    private final String SHOP_TABLE = "shop_track";
+    private final String BALANCE_TRACKER = "balance_track";
 
     private final DatabaseManager _databaseManager;
 
@@ -17,7 +18,7 @@ public class DataHandler {
     }
 
     public void creteTable() {
-        final String sql = "CREATE TABLE IF NOT EXISTS " + this.TABLE_NAME + " (" +
+        String sql = "CREATE TABLE IF NOT EXISTS " + this.SHOP_TABLE + " (" +
                 "ID INT NOT NULL AUTO_INCREMENT," +
                 "transactionTime BIGINT NOT NULL," +
                 "playerUUID VARCHAR(36) NOT NULL," +
@@ -28,10 +29,20 @@ public class DataHandler {
                 ",PRIMARY KEY (ID)" +
                 ')';
         this._databaseManager.execute(sql);
+
+        sql = "CREATE TABLE IF NOT EXISTS " + this.BALANCE_TRACKER + " (" +
+                "ID INT NOT NULL AUTO_INCREMENT," +
+                "transactionTime BIGINT NOT NULL," +
+                "playerUUID VARCHAR(36) NOT NULL," +
+                "eventType INT NOT NULL," +
+                "price DOUBLE," +
+                ",PRIMARY KEY (ID)" +
+                ')';
+        this._databaseManager.execute(sql);
     }
 
     public void storeTransaction(ShopEvent dataStore) {
-        String insert = "INSERT INTO " + this.TABLE_NAME
+        String insert = "INSERT INTO " + this.SHOP_TABLE
                 + " ( transactionTime, playerUUID, eventType, amount, price, item ) VALUES(?, ?, ?, ?, ?, ?)";
 
         try {
@@ -50,7 +61,7 @@ public class DataHandler {
     }
 
     public ShopEvent getSingleTransactionForTime(int time, String uuid) {
-        String select = "SELECT * FROM " + this.TABLE_NAME + " WHERE time=? AND uuid=?";
+        String select = "SELECT * FROM " + this.SHOP_TABLE + " WHERE time=? AND uuid=?";
 
         _databaseManager.execute(select, statement -> {
             statement.setInt(1, time);
@@ -69,7 +80,7 @@ public class DataHandler {
     }
 
     public double getTransactionsForItemOnTime(int time, String item) {
-        final String select = "SELECT SUM(amount) AS sumOfAmounts FROM " + this.TABLE_NAME + " WHERE time=? AND item=?";
+        final String select = "SELECT SUM(amount) AS sumOfAmounts FROM " + this.SHOP_TABLE + " WHERE time=? AND item=?";
 
         try {
             _databaseManager.execute(select, ps -> {

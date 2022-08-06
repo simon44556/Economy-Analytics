@@ -10,7 +10,7 @@ import org.bukkit.event.Listener;
 import me.simon44556.economyAnalytics.EconomyAnalytics;
 import me.simon44556.economyAnalytics.DataHandler.DataHandler;
 import me.simon44556.economyAnalytics.DataTypes.ShopEvent;
-import me.simon44556.economyAnalytics.DataTypes.Enums.ShopEventType;
+import me.simon44556.economyAnalytics.DataTypes.Enums.EventType;
 import net.brcdev.shopgui.event.ShopPostTransactionEvent;
 import net.brcdev.shopgui.shop.ShopManager.ShopAction;
 import net.brcdev.shopgui.shop.ShopTransactionResult;
@@ -29,7 +29,7 @@ public class ShopListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onShopTransaction(ShopPostTransactionEvent e) {
         ShopTransactionResult result = e.getResult();
         if (result == null) {
@@ -59,16 +59,16 @@ public class ShopListener implements Listener {
         });
     }
 
-    public ShopEventType matchEventType(ShopAction action) {
+    public EventType matchEventType(ShopAction action) {
         switch (action) {
             case BUY:
-                return ShopEventType.BUY;
+                return EventType.BUY;
             case SELL:
-                return ShopEventType.SELL;
+                return EventType.SELL;
             case SELL_ALL:
-                return ShopEventType.SELL_ALL;
+                return EventType.SELL_ALL;
             default:
-                return ShopEventType.OTHER;
+                return EventType.OTHER;
         }
     }
 

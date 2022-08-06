@@ -6,6 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Event;
 
+import me.simon44556.economyAnalytics.EconomyEvents.Economy.BankDepositEvent;
+import me.simon44556.economyAnalytics.EconomyEvents.Economy.BankWithdrawEvent;
 import me.simon44556.economyAnalytics.EconomyEvents.Economy.PlayerDepositEvent;
 import me.simon44556.economyAnalytics.EconomyEvents.Economy.PlayerWithdrawEvent;
 import net.milkbowl.vault.economy.Economy;
@@ -167,13 +169,13 @@ public class EconomyWrapper implements Economy {
     @Deprecated
     public EconomyResponse createBank(String s, String s1) {
         EconomyResponse response = original.createBank(s, Bukkit.getOfflinePlayer(s1));
-        //callEvent(new BankCreateEvent(s, Bukkit.getOfflinePlayer(s1), response));
+        // callEvent(new BankCreateEvent(s, Bukkit.getOfflinePlayer(s1), response));
         return response;
     }
 
     public EconomyResponse createBank(String bankName, OfflinePlayer player) {
         EconomyResponse response = original.createBank(bankName, player);
-        //callEvent(new BankCreateEvent(bankName, player, response));
+        // callEvent(new BankCreateEvent(bankName, player, response));
         return response;
     }
 
@@ -191,13 +193,13 @@ public class EconomyWrapper implements Economy {
 
     public EconomyResponse bankWithdraw(String s, double amount) {
         EconomyResponse response = original.bankWithdraw(s, amount);
-        //callEvent(new BankWithdrawEvent(s, amount, response));
+        callEvent(new BankWithdrawEvent(s, amount, response));
         return response;
     }
 
     public EconomyResponse bankDeposit(String s, double amount) {
         EconomyResponse response = original.bankDeposit(s, amount);
-        //callEvent(new BankDepositEvent(s, amount, response));
+        callEvent(new BankDepositEvent(s, amount, response));
         return response;
     }
 
@@ -230,22 +232,24 @@ public class EconomyWrapper implements Economy {
 
     public boolean createPlayerAccount(OfflinePlayer player) {
         boolean success = original.createPlayerAccount(player);
-        //callEvent(success ? new PlayerAccountCreateSuccessEvent(player) : new PlayerAccountCreateFailedEvent(player));
+        // callEvent(success ? new PlayerAccountCreateSuccessEvent(player) : new
+        // PlayerAccountCreateFailedEvent(player));
         return success;
     }
 
     @Deprecated
     public boolean createPlayerAccount(String s, String s1) {
         boolean success = original.createPlayerAccount(Bukkit.getOfflinePlayer(s), s1);
-        //callEvent(success ? new PlayerAccountCreateSuccessEvent(Bukkit.getOfflinePlayer(s), s1)
-        //        : new PlayerAccountCreateFailedEvent(Bukkit.getOfflinePlayer(s), s1));
+        // callEvent(success ? new
+        // PlayerAccountCreateSuccessEvent(Bukkit.getOfflinePlayer(s), s1)
+        // : new PlayerAccountCreateFailedEvent(Bukkit.getOfflinePlayer(s), s1));
         return success;
     }
 
     public boolean createPlayerAccount(OfflinePlayer player, String world) {
         boolean success = original.createPlayerAccount(player, world);
-        //callEvent(success ? new PlayerAccountCreateSuccessEvent(player, world)
-        //        : new PlayerAccountCreateFailedEvent(player, world));
+        // callEvent(success ? new PlayerAccountCreateSuccessEvent(player, world)
+        // : new PlayerAccountCreateFailedEvent(player, world));
         return success;
     }
 }

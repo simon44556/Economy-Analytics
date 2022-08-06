@@ -1,22 +1,27 @@
 package me.simon44556.economyAnalytics.EconomyListener;
 
+import java.lang.System.Logger;
 import java.sql.SQLException;
+import java.util.logging.Level;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
+
+import com.Zrips.CMI.events.CMIUserBalanceChangeEvent;
 
 import me.simon44556.economyAnalytics.EconomyAnalytics;
 import me.simon44556.economyAnalytics.DataHandler.DataHandler;
-import me.simon44556.economyAnalytics.EconomyEvents.Economy.PlayerDepositEvent;
-import me.simon44556.economyAnalytics.EconomyEvents.Economy.PlayerWithdrawEvent;
 
-public class EconomyListener implements Listener {
+public class CMIListener {
     EconomyAnalytics plugin;
     DataHandler _handler;
 
-    public EconomyListener(EconomyAnalytics plugin) {
+    public CMIListener(EconomyAnalytics plugin) {
         this.plugin = plugin;
+        if (plugin.getServer().getPluginManager().getPlugin("CMI") == null) {
+            plugin.getLogger().log(Level.SEVERE, "CMI not provided");
+            return;
+        }
         try {
             this._handler = new DataHandler();
         } catch (SQLException e) {
@@ -25,10 +30,7 @@ public class EconomyListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onEconomyDeposit(PlayerWithdrawEvent e) {
-    }
+    public void onCMIEconomyEvent(CMIUserBalanceChangeEvent e) {
 
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onEconomyWithdraw(PlayerDepositEvent e) {
     }
 }
