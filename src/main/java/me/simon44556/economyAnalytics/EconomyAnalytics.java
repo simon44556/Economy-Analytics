@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.simon44556.economyAnalytics.ConfigManager.ConfigAccessor;
+import me.simon44556.economyAnalytics.EconomyListener.CMIListener;
 import me.simon44556.economyAnalytics.EconomyListener.EconomyListener;
 import me.simon44556.economyAnalytics.EconomyWrapper.EconomyRegister;
 import me.simon44556.economyAnalytics.ShopListener.ShopListener;
@@ -36,6 +37,13 @@ public class EconomyAnalytics extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new EconomyListener(this), this);
         } else {
             logger.log(Level.SEVERE, "ECONOMY NOT AVAILABLE");
+        }
+
+        if (this.getServer().getPluginManager().getPlugin("CMI") != null) {
+            // register cmi
+            getServer().getPluginManager().registerEvents(new CMIListener(this), this);
+        } else {
+            logger.log(Level.SEVERE, "CMI not provided");
         }
     }
 

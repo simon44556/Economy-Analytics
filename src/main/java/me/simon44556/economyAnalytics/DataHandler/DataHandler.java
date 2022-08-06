@@ -3,12 +3,13 @@ package me.simon44556.economyAnalytics.DataHandler;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import me.simon44556.economyAnalytics.DataTypes.BalanceEvent;
 import me.simon44556.economyAnalytics.DataTypes.ShopEvent;
 import me.simon44556.economyAnalytics.DatabaseManager.DatabaseManager;
 
 public class DataHandler {
     private final String SHOP_TABLE = "shop_track";
-    private final String BALANCE_TRACKER = "balance_track";
+    private final String BALANCE_TABLE = "balance_track";
 
     private final DatabaseManager _databaseManager;
 
@@ -30,7 +31,7 @@ public class DataHandler {
                 ')';
         this._databaseManager.execute(sql);
 
-        sql = "CREATE TABLE IF NOT EXISTS " + this.BALANCE_TRACKER + " (" +
+        sql = "CREATE TABLE IF NOT EXISTS " + this.BALANCE_TABLE + " (" +
                 "ID INT NOT NULL AUTO_INCREMENT," +
                 "transactionTime BIGINT NOT NULL," +
                 "playerUUID VARCHAR(36) NOT NULL," +
@@ -60,7 +61,24 @@ public class DataHandler {
         }
     }
 
-    public ShopEvent getSingleTransactionForTime(int time, String uuid) {
+    public void storeTransaction(BalanceEvent dataStore) {
+        String insert = "INSERT INTO " + this.BALANCE_TABLE
+                + " ( transactionTime, playerUUID, eventType, price) VALUES(?, ?, ?, ?)";
+
+        try {
+            _databaseManager.execute(insert, statement -> {
+                statement.setLong(1, dataStore.getTransactionTime());
+                statement.setString(2, dataStore.getPlayerUUID());
+                statement.setInt(3, dataStore.getEventTypeAsInt());
+                statement.setDouble(5, dataStore.getPrice());
+                return statement.execute();
+            });
+        } catch (IllegalStateException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public ShopEvent getSingleTransactionForTime(int time, String uuid, String table) {
         String select = "SELECT * FROM " + this.SHOP_TABLE + " WHERE time=? AND uuid=?";
 
         _databaseManager.execute(select, statement -> {
@@ -79,7 +97,7 @@ public class DataHandler {
         return null;
     }
 
-    public double getTransactionsForItemOnTime(int time, String item) {
+    public double getTransactionsForItemOnTime(int time, String item, String table) {
         final String select = "SELECT SUM(amount) AS sumOfAmounts FROM " + this.SHOP_TABLE + " WHERE time=? AND item=?";
 
         try {
