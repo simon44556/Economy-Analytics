@@ -13,15 +13,15 @@ public class EconomyListener extends EventListenHandler {
         super(plugin);
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onEconomyDeposit(PlayerWithdrawEvent e) {
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onEconomyDeposit(PlayerDepositEvent e) {
         saveTransaction(new BalanceEvent(System.currentTimeMillis(), e.getOfflinePlayer().getUniqueId().toString(),
-                matchEventType("Deposit"), e.getAmount()));
+                matchEventType("Withdraw"), Math.abs(e.getAmount())));
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onEconomyWithdraw(PlayerDepositEvent e) {
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onEconomyWithdraw(PlayerWithdrawEvent e) {
         saveTransaction(new BalanceEvent(System.currentTimeMillis(), e.getOfflinePlayer().getUniqueId().toString(),
-                matchEventType("Withdraw"), e.getAmount()));
+                matchEventType("Deposit"), Math.abs(e.getAmount())));
     }
 }

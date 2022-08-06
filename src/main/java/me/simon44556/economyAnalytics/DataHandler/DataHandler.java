@@ -79,7 +79,7 @@ public class DataHandler {
     }
 
     public ShopEvent getSingleTransactionForTime(int time, String uuid, String table) {
-        String select = "SELECT * FROM " + this.SHOP_TABLE + " WHERE time=? AND uuid=?";
+        String select = "SELECT * FROM " + table + " WHERE time=? AND uuid=?";
 
         _databaseManager.execute(select, statement -> {
             statement.setInt(1, time);
@@ -98,7 +98,7 @@ public class DataHandler {
     }
 
     public double getTransactionsForItemOnTime(int time, String item, String table) {
-        final String select = "SELECT SUM(amount) AS sumOfAmounts FROM " + this.SHOP_TABLE + " WHERE time=? AND item=?";
+        final String select = "SELECT SUM(amount) AS sumOfAmounts FROM " + table + " WHERE time=? AND item=?";
 
         try {
             _databaseManager.execute(select, ps -> {

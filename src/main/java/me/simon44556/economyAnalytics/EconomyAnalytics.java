@@ -31,19 +31,24 @@ public class EconomyAnalytics extends JavaPlugin {
 
     public void registerListeners() {
         getServer().getPluginManager().registerEvents(new ShopListener(this), this);
+        registerEconomyListener();
+    }
 
-        if (vaultEventProvider.areEventsAvailable()) {
-            // Register vault
-            getServer().getPluginManager().registerEvents(new EconomyListener(this), this);
-        } else {
-            logger.log(Level.SEVERE, "ECONOMY NOT AVAILABLE");
-        }
+    public void registerEconomyListener() {
+        boolean isCmiAvailable = this.getServer().getPluginManager().getPlugin("CMI") != null;
 
-        if (this.getServer().getPluginManager().getPlugin("CMI") != null) {
+        if (isCmiAvailable) {
             // register cmi
             getServer().getPluginManager().registerEvents(new CMIListener(this), this);
         } else {
-            logger.log(Level.SEVERE, "CMI not provided");
+            logger.log(Level.SEVERE, "CMI not provided -> Trying vault");
+
+            if (vaultEventProvider.areEventsAvailable()) {
+                // Register vault
+                getServer().getPluginManager().registerEvents(new EconomyListener(this), this);
+            } else {
+                logger.log(Level.SEVERE, "ECONOMY NOT AVAILABLE");
+            }
         }
     }
 

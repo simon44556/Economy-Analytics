@@ -30,20 +30,14 @@ public abstract class EventListenHandler implements Listener {
 
     public void saveTransaction(EconomyEvent dataForDB) {
         if (dataForDB instanceof ShopEvent) {
-            System.out.println("Log as Shop");
             Bukkit.getScheduler().runTaskAsynchronously(plugin,
                     () -> _handler.storeTransaction((ShopEvent) dataForDB));
 
         } else {
-            System.out.println("Log as Balance");
             Bukkit.getScheduler().runTaskAsynchronously(plugin,
                     () -> _handler.storeTransaction((BalanceEvent) dataForDB));
         }
 
-    }
-
-    public void saveTransaction(ShopEvent dataForDB) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> _handler.storeTransaction(dataForDB));
     }
 
     /*

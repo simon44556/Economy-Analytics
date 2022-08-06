@@ -17,7 +17,7 @@ public class ShopListener extends EventListenHandler {
         super(plugin);
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onShopTransaction(ShopPostTransactionEvent e) {
         ShopTransactionResult result = e.getResult();
         if (result == null) {
@@ -42,7 +42,7 @@ public class ShopListener extends EventListenHandler {
         ShopEvent dataForDB = new ShopEvent(System.currentTimeMillis(), uuid, matchEventType(action), amount, price,
                 mat);
 
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> _handler.storeTransaction(dataForDB));
+        saveTransaction(dataForDB);
     }
 
 }

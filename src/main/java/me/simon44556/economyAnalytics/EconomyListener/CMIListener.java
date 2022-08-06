@@ -13,11 +13,12 @@ public class CMIListener extends EventListenHandler {
         super(plugin);
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.HIGHEST) // Highest priority in case it gets canceled before
     public void onCMIEconomyEvent(CMIUserBalanceChangeEvent e) {
-        System.out.println("CMI Event for " + e.getSource().getName() + " to " + e.getUser().getName() + " "
-                + e.getFrom() + " " + e.getTo() + " " + e.getActionType());
-        saveTransaction(new BalanceEvent(System.currentTimeMillis(), e.getSource().getUniqueId().toString(),
-                matchEventType(e.getActionType()), e.getFrom() - e.getTo()));
+        String uuid = e.getSource() != null ? e.getSource().getUniqueId().toString()
+                : e.getUser().getUniqueId().toString();
+        saveTransaction(new BalanceEvent(System.currentTimeMillis(), uuid,
+                matchEventType(e.getActionType()), Math.abs(e.getFrom() - e.getTo())));
+
     }
 }
