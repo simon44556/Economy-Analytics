@@ -27,7 +27,6 @@ public class ShopListener implements Listener {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)

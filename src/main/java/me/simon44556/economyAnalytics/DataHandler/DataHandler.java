@@ -13,6 +13,7 @@ public class DataHandler {
 
     public DataHandler() throws SQLException {
         this._databaseManager = new DatabaseManager();
+        this.creteTable();
     }
 
     public void creteTable() {

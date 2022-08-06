@@ -6,6 +6,8 @@ description: A test plugin
 author: simon44556
 depend:
 - ShopGUIPlus
+softDepend:
+- Vault
 # TODO:
 #commands:
 #  foo:
